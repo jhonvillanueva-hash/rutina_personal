@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { listarEtiquetas, crearEtiqueta, actualizarEtiqueta, eliminarEtiqueta } from '../services/etiquetas';
-import { Etiqueta } from '../types/etiqueta';
+import type { Etiqueta } from '../types/etiqueta';
 
 export default function GestionEtiquetas() {
   const [etiquetas, setEtiquetas] = useState<Etiqueta[]>([]);

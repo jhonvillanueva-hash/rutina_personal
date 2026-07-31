@@ -1,4 +1,4 @@
-import { Etiqueta } from '../types/etiqueta';
+import type { Etiqueta } from '../types/etiqueta';
 
 export const listarEtiquetas = async (): Promise<Etiqueta[]> => {
   const response = await fetch('/api/etiquetas');
