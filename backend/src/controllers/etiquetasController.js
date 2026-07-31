@@ -7,8 +7,10 @@ const etiquetasController = {
   // Listar todas las etiquetas
   listar: (req, res) => {
     try {
+      console.log('Listando etiquetas...');
       const rows = db.prepare('SELECT * FROM etiquetas ORDER BY nombre ASC').all();
       const etiquetas = rows.map(row => Etiqueta.fromRow(row));
+      console.log('Etiquetas encontradas:', etiquetas);
       res.json(etiquetas);
     } catch (error) {
       console.error('Error listando etiquetas:', error);
@@ -43,9 +45,11 @@ const etiquetasController = {
     }
 
     try {
+      console.log('Creando etiqueta:', { nombre, duracion_segundos: duracion });
       const stmt = db.prepare('INSERT INTO etiquetas (nombre, duracion_segundos) VALUES (?, ?)');
       const result = stmt.run(nombre.trim(), duracion);
       const nuevaEtiqueta = db.prepare('SELECT * FROM etiquetas WHERE id = ?').get(result.lastInsertRowid);
+      console.log('Etiqueta creada:', nuevaEtiqueta);
       res.status(201).json(Etiqueta.fromRow(nuevaEtiqueta));
     } catch (error) {
       console.error('Error creando etiqueta:', error);
@@ -125,11 +129,11 @@ const etiquetasController = {
       return res.status(404).json({ error: 'Etiqueta no encontrada' });
     }
 
-    // TODO: Cuando exista la tabla actividades en la Fase 2, descomentar y usar este check:
-    // const actividadesCount = db.prepare('SELECT COUNT(*) as count FROM actividades WHERE etiqueta_id = ?').get(id);
-    // if (actividadesCount.count > 0) {
-    //   return res.status(409).json({ error: 'No se puede eliminar una etiqueta que tiene actividades asociadas' });
-    // }
+    // Check: No eliminar etiqueta con actividades asociadas
+    const actividadesCount = db.prepare('SELECT COUNT(*) as count FROM actividades WHERE etiqueta_id = ?').get(id);
+    if (actividadesCount.count > 0) {
+      return res.status(409).json({ error: 'No se puede eliminar una etiqueta que tiene actividades asociadas' });
+    }
 
     try {
       const stmt = db.prepare('DELETE FROM etiquetas WHERE id = ?');

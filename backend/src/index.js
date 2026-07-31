@@ -20,6 +20,9 @@ initDb();
 const etiquetasRouter = require('./routes/etiquetas');
 app.use('/api/etiquetas', etiquetasRouter);
 
+const actividadesRouter = require('./routes/actividades');
+app.use('/api/actividades', actividadesRouter);
+
 // Endpoint de salud
 app.get('/api/health', (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { listarEtiquetas, crearEtiqueta, actualizarEtiqueta, eliminarEtiqueta } from '../services/etiquetas';
 import type { Etiqueta } from '../types/etiqueta';
+import { listarEtiquetas, crearEtiqueta, actualizarEtiqueta, eliminarEtiqueta } from '../services/etiquetas';
 
 export default function GestionEtiquetas() {
   const [etiquetas, setEtiquetas] = useState<Etiqueta[]>([]);
@@ -68,36 +68,26 @@ export default function GestionEtiquetas() {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
-      <h1>Gestión de Etiquetas</h1>
+    <div className="card">
+      <h2>{editId !== null ? 'Editar Etiqueta' : 'Crear Nueva Etiqueta'}</h2>
 
-      {error && (
-        <div style={{ color: 'red', padding: '1rem', backgroundColor: '#ffeeee', marginBottom: '1rem' }}>
-          Error: {error}
-        </div>
-      )}
+      {error && <div className="error-banner">Error: {error}</div>}
 
-      <div style={{ marginBottom: '2rem', padding: '1rem', backgroundColor: '#f5f5f5', borderRadius: '4px' }}>
-        <h2>{editId !== null ? 'Editar Etiqueta' : 'Crear Nueva Etiqueta'}</h2>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="nombre" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              Nombre:
-            </label>
+      <form onSubmit={handleSubmit}>
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
               value={formData.nombre}
               onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
               required
-              style={{ width: '100%', padding: '0.5rem' }}
             />
           </div>
 
-          <div style={{ marginBottom: '1rem' }}>
-            <label htmlFor="duracion" style={{ display: 'block', marginBottom: '0.5rem' }}>
-              Duración (segundos):
-            </label>
+          <div className="field">
+            <label htmlFor="duracion">Duración (segundos)</label>
             <input
               type="number"
               id="duracion"
@@ -106,68 +96,63 @@ export default function GestionEtiquetas() {
               min="1"
               max="3600"
               required
-              style={{ width: '100%', padding: '0.5rem' }}
             />
           </div>
+        </div>
 
-          <button type="submit" style={{ padding: '0.5rem 1rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
+        <div style={{ marginTop: '12px' }}>
+          <button type="submit" className="btn btn-primary">
             {editId !== null ? 'Actualizar' : 'Crear'}
           </button>
           {editId !== null && (
             <button
               type="button"
+              className="btn btn-secondary"
               onClick={() => {
                 setEditId(null);
                 setFormData({ nombre: '', duracion_segundos: 30 });
               }}
-              style={{ padding: '0.5rem 1rem', marginLeft: '1rem', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px' }}
+              style={{ marginLeft: '8px' }}
             >
               Cancelar
             </button>
           )}
-        </form>
-      </div>
+        </div>
+      </form>
 
-      <div>
+      <div style={{ marginTop: '24px' }}>
         <h2>Lista de Etiquetas</h2>
         {loading ? (
           <p>Cargando...</p>
         ) : etiquetas.length === 0 ? (
-          <p>No hay etiquetas creadas.</p>
+          <div className="empty-state">No hay etiquetas creadas.</div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th style={{ textAlign: 'left', padding: '0.5rem', borderBottom: '1px solid #ddd' }}>Nombre</th>
-                <th style={{ textAlign: 'left', padding: '0.5rem', borderBottom: '1px solid #ddd' }}>Duración (seg)</th>
-                <th style={{ textAlign: 'left', padding: '0.5rem', borderBottom: '1px solid #ddd' }}>Creada</th>
-                <th style={{ textAlign: 'left', padding: '0.5rem', borderBottom: '1px solid #ddd' }}>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {etiquetas.map((etiqueta) => (
-                <tr key={etiqueta.id}>
-                  <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{etiqueta.nombre}</td>
-                  <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{etiqueta.duracion_segundos}</td>
-                  <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{new Date(etiqueta.created_at).toLocaleString()}</td>
-                  <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>
-                    <button
-                      onClick={() => handleEdit(etiqueta)}
-                      style={{ marginRight: '0.5rem', padding: '0.25rem 0.5rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(etiqueta.id)}
-                      style={{ padding: '0.25rem 0.5rem', backgroundColor: '#dc3545', color: 'white', border: 'none', borderRadius: '4px' }}
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="list">
+            {etiquetas.map((etiqueta) => (
+              <div key={etiqueta.id} className="list-item">
+                <div className="list-item-main">
+                  <div className="list-item-title">{etiqueta.nombre}</div>
+                  <div className="list-item-meta">
+                    Duración: {etiqueta.duracion_segundos} segundos
+                  </div>
+                </div>
+                <div className="list-item-actions">
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => handleEdit(etiqueta)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(etiqueta.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         )}
       </div>
     </div>
