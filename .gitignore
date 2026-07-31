@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+
+# Base de datos SQLite
+backend/rutina.db
+
+# Archivos de configuración
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Archivos de Claude (instrucciones privadas)
+CLAUDE.md
+ROADMAP_FASES.md
+RutinaPersonal_V1.md
+
+# Artefactos de build
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/
+backend/node_modules/
+
+# Archivos de log
+tmp/
+*.log
+
+# Archivos de sistema
+.DS_Store
+
+# Archivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
