@@ -16,6 +16,10 @@ app.use(express.json());
 // Inicializar base de datos
 initDb();
 
+// Rutas de API
+const etiquetasRouter = require('./routes/etiquetas');
+app.use('/api/etiquetas', etiquetasRouter);
+
 // Endpoint de salud
 app.get('/api/health', (req, res) => {
   try {
