@@ -120,14 +120,14 @@ export default function GestionEtiquetas() {
         </div>
       </form>
 
-      <div style={{ marginTop: '24px' }}>
+      <div style={{ marginTop: '24px', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
         <h2>Lista de Etiquetas</h2>
         {loading ? (
           <p>Cargando...</p>
         ) : etiquetas.length === 0 ? (
           <div className="empty-state">No hay etiquetas creadas.</div>
         ) : (
-          <div className="list">
+          <div className="list list-scroll">
             {etiquetas.map((etiqueta) => (
               <div key={etiqueta.id} className="list-item">
                 <div className="list-item-main">

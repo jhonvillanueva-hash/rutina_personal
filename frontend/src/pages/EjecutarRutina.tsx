@@ -60,7 +60,7 @@ export default function EjecutarRutina() {
 
       {error && <div className="error-banner">Error: {error}</div>}
 
-      <div className="field" style={{ marginBottom: '24px' }}>
+      <div className="field" style={{ marginBottom: '24px', flex: '0 0 auto' }}>
         <label htmlFor="etiqueta-select">Seleccionar etiqueta</label>
         {loading ? (
           <p>Cargando etiquetas...</p>
@@ -87,7 +87,7 @@ export default function EjecutarRutina() {
       </div>
 
       {etiquetaSeleccionada && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="activity-list-wrap">
           <h3>Actividades a ejecutar</h3>
           {loading ? (
             <p>Cargando actividades...</p>
@@ -96,9 +96,9 @@ export default function EjecutarRutina() {
               No hay actividades para esta etiqueta.
             </div>
           ) : (
-            <div className="list">
+            <div className="list list-scroll">
               {actividades.map((actividad) => (
-                <div key={actividad.id} className="list-item">
+                <div key={actividad.id} className="list-item activity-preview-item">
                   <div className="list-item-main">
                     <div className="list-item-title">{actividad.nombre}</div>
                     <div className="list-item-meta">
@@ -114,7 +114,7 @@ export default function EjecutarRutina() {
         </div>
       )}
 
-      <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--line)' }}>
+      <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--line)', flexShrink: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <h3 style={{ margin: 0 }}>Control de ejecución</h3>
           {!rutinaIniciada && (

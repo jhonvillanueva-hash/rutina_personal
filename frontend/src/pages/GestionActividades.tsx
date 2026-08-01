@@ -146,14 +146,14 @@ export default function GestionActividades() {
         </div>
       </form>
 
-      <div style={{ marginTop: '24px' }}>
+      <div style={{ marginTop: '24px', flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
         <h2>Lista de Actividades</h2>
         {loading ? (
           <p>Cargando...</p>
         ) : actividades.length === 0 ? (
           <div className="empty-state">No hay actividades creadas.</div>
         ) : (
-          <div className="list">
+          <div className="list list-scroll">
             {actividades.map((actividad) => (
               <div key={actividad.id} className="list-item">
                 <div className="list-item-main">

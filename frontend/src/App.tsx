@@ -8,11 +8,6 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <div className="app-header">
-        <h1>RutinaPersonal V1</h1>
-        <p>Gestiona tus etiquetas y actividades</p>
-      </div>
-
       <div className="nav-tabs">
         <button
           className={`nav-tab ${activeTab === 'etiquetas' ? 'active' : ''}`}
