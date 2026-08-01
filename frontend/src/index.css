@@ -115,6 +115,11 @@ body {
   box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
+.field-compact {
+  flex: 0 0 auto;
+  max-width: 280px;
+}
+
 .btn {
   font-family: var(--font-ui);
   font-size: 0.92rem;
@@ -171,7 +176,7 @@ body {
   min-height: 0;
   display: flex;
   flex-direction: column;
-  max-width: 560px;
+  max-width: 680px;
   margin: 0 auto;
   width: 100%;
 }
@@ -243,6 +248,108 @@ body {
   font-weight: 700;
   font-size: 1.3rem;
   letter-spacing: -0.02em;
+}
+
+.card-ejecucion {
+  padding: 0;
+}
+
+.fase-fullscreen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 24px;
+  position: relative;
+}
+
+.fase-info-superior {
+  position: absolute;
+  top: 16px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+}
+
+.countdown-numero {
+  font-family: var(--font-mono);
+  font-size: clamp(6rem, 20vw, 12rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-deep);
+}
+
+.countdown-sub {
+  margin-top: 20px;
+  color: var(--ink-muted);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ejecucion-contenido {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ejecucion-contenido.saliente {
+  opacity: 0;
+  transform: translateX(28px);
+}
+
+.ejecucion-contador {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-bottom: 20px;
+}
+
+.ejecucion-nombre {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 36px;
+  max-width: 900px;
+}
+
+.progreso-barra {
+  width: min(90%, 760px);
+  height: 28px;
+  background: var(--bg);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.progreso-lleno {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+
+.completado-titulo {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+
+.completado-sub {
+  color: var(--ink-muted);
+  font-size: 1.1rem;
+  margin: 0 0 28px;
 }
 
 .empty-state {
