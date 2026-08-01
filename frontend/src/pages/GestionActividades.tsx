@@ -23,7 +23,6 @@ export default function GestionActividades() {
   // Inicializar formData con la primera etiqueta después de cargar
   useEffect(() => {
     if (etiquetas.length > 0 && formData.etiqueta_id === 0 && editId === null) {
-      console.log('Inicializando etiqueta_id con:', etiquetas[0].id)
       setFormData(prev => ({ ...prev, etiqueta_id: etiquetas[0].id }));
     }
   }, [etiquetas]);
@@ -47,7 +46,6 @@ export default function GestionActividades() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log('Enviando formulario con:', formData)
     try {
       if (editId !== null) {
         const updated = await actualizarActividad(editId, formData)
@@ -112,7 +110,6 @@ export default function GestionActividades() {
               id="etiqueta_id"
               value={formData.etiqueta_id}
               onChange={(e) => {
-                console.log('Etiqueta seleccionada:', e.target.value)
                 setFormData({ ...formData, etiqueta_id: Number(e.target.value) })
               }}
               required

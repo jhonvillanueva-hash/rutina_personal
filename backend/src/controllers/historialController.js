@@ -4,6 +4,18 @@ const HistorialRutina = require('../models/HistorialRutina');
 const ESTADOS_VALIDOS = ['Completada', 'Cancelada'];
 
 const historialController = {
+  // Listar sesiones guardadas, de la más reciente a la más antigua
+  listar: (req, res) => {
+    try {
+      const rows = db.prepare('SELECT * FROM historial_rutinas ORDER BY created_at DESC').all();
+      const registros = rows.map(row => HistorialRutina.fromRow(row));
+      res.json(registros);
+    } catch (error) {
+      console.error('Error listando historial:', error);
+      res.status(500).json({ error: 'Error al listar el historial' });
+    }
+  },
+
   // Crear un registro de rutina finalizada o cancelada
   crear: (req, res) => {
     const { etiqueta_nombre, fecha, hora_inicio, hora_fin, duracion_total_segundos, estado } = req.body;

@@ -32,6 +32,18 @@ export default function GestionEtiquetas() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nombre = formData.nombre.trim();
+    const duracion = Number(formData.duracion_segundos);
+    if (nombre === '') {
+      setError('El nombre es obligatorio');
+      return;
+    }
+    if (!Number.isInteger(duracion) || duracion < 1 || duracion > 3600) {
+      setError('La duración debe ser un número entero entre 1 y 3600 segundos');
+      return;
+    }
+
     try {
       if (editId !== null) {
         const updated = await actualizarEtiqueta(editId, formData);

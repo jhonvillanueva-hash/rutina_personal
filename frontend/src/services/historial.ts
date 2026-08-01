@@ -1,5 +1,13 @@
 import type { CrearHistorialRutina, HistorialRutina } from '../types/historial';
 
+export const listarHistorial = async (): Promise<HistorialRutina[]> => {
+  const response = await fetch('/api/historial');
+  if (!response.ok) {
+    throw new Error('Error al listar el historial');
+  }
+  return response.json();
+};
+
 export const crearRegistroHistorial = async (payload: CrearHistorialRutina): Promise<HistorialRutina> => {
   const response = await fetch('/api/historial', {
     method: 'POST',

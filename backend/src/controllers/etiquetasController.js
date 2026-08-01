@@ -52,11 +52,9 @@ const etiquetasController = {
     }
 
     try {
-      console.log('Creando etiqueta:', { nombre, duracion_segundos: duracion });
       const stmt = db.prepare('INSERT INTO etiquetas (nombre, duracion_segundos) VALUES (?, ?)');
       const result = stmt.run(nombre.trim(), duracion);
       const nuevaEtiqueta = db.prepare('SELECT * FROM etiquetas WHERE id = ?').get(result.lastInsertRowid);
-      console.log('Etiqueta creada:', nuevaEtiqueta);
       res.status(201).json(Etiqueta.fromRow(nuevaEtiqueta));
     } catch (error) {
       console.error('Error creando etiqueta:', error);

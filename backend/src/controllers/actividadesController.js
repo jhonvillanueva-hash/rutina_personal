@@ -13,7 +13,7 @@ const actividadesController = {
         params.push(req.query.etiqueta_id);
       }
 
-      query += ' ORDER BY created_at ASC';
+      query += ' ORDER BY created_at ASC, id ASC';
 
       const rows = db.prepare(query).all(...params);
       const actividades = rows.map(row => Actividad.fromRow(row));
@@ -38,11 +38,8 @@ const actividadesController = {
     }
 
     // Verificar que la etiqueta existe
-    console.log('Buscando etiqueta con ID:', etiqueta_id);
     const etiqueta = db.prepare('SELECT id FROM etiquetas WHERE id = ?').get(etiqueta_id);
-    console.log('Etiqueta encontrada:', etiqueta);
     if (!etiqueta) {
-      console.log('Etiquetas disponibles:', db.prepare('SELECT * FROM etiquetas').all());
       return res.status(400).json({ error: 'La etiqueta seleccionada no existe' });
     }
 

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import GestionEtiquetas from './pages/GestionEtiquetas'
 import GestionActividades from './pages/GestionActividades'
 import EjecutarRutina from './pages/EjecutarRutina'
+import Historial from './pages/Historial'
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'etiquetas' | 'actividades' | 'ejecutar'>('etiquetas')
+  const [activeTab, setActiveTab] = useState<'etiquetas' | 'actividades' | 'ejecutar' | 'historial'>('etiquetas')
 
   return (
     <div className="app-shell">
@@ -27,9 +28,23 @@ export default function App() {
         >
           Ejecutar
         </button>
+        <button
+          className={`nav-tab ${activeTab === 'historial' ? 'active' : ''}`}
+          onClick={() => setActiveTab('historial')}
+        >
+          Historial
+        </button>
       </div>
 
-      {activeTab === 'etiquetas' ? <GestionEtiquetas /> : activeTab === 'actividades' ? <GestionActividades /> : <EjecutarRutina />}
+      {activeTab === 'etiquetas' ? (
+        <GestionEtiquetas />
+      ) : activeTab === 'actividades' ? (
+        <GestionActividades />
+      ) : activeTab === 'ejecutar' ? (
+        <EjecutarRutina />
+      ) : (
+        <Historial />
+      )}
     </div>
   )
 }
