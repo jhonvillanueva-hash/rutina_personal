@@ -1,7 +1,11 @@
 import type { Etiqueta } from '../types/etiqueta';
 
-export const listarEtiquetas = async (): Promise<Etiqueta[]> => {
-  const response = await fetch('/api/etiquetas');
+export const listarEtiquetas = async (conActividades?: boolean): Promise<Etiqueta[]> => {
+  let url = '/api/etiquetas';
+  if (conActividades) {
+    url += '?con_actividades=true';
+  }
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Error al listar etiquetas');
   }

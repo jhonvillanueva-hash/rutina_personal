@@ -7,10 +7,17 @@ const etiquetasController = {
   // Listar todas las etiquetas
   listar: (req, res) => {
     try {
-      console.log('Listando etiquetas...');
-      const rows = db.prepare('SELECT * FROM etiquetas ORDER BY nombre ASC').all();
+      let query = 'SELECT DISTINCT e.* FROM etiquetas e';
+      const params = [];
+
+      if (req.query.con_actividades === 'true') {
+        query += ' JOIN actividades a ON e.id = a.etiqueta_id';
+      }
+
+      query += ' ORDER BY e.nombre ASC';
+
+      const rows = db.prepare(query).all(...params);
       const etiquetas = rows.map(row => Etiqueta.fromRow(row));
-      console.log('Etiquetas encontradas:', etiquetas);
       res.json(etiquetas);
     } catch (error) {
       console.error('Error listando etiquetas:', error);

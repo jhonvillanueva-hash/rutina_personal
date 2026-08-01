@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import GestionEtiquetas from './pages/GestionEtiquetas'
 import GestionActividades from './pages/GestionActividades'
+import EjecutarRutina from './pages/EjecutarRutina'
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'etiquetas' | 'actividades'>('etiquetas')
+  const [activeTab, setActiveTab] = useState<'etiquetas' | 'actividades' | 'ejecutar'>('etiquetas')
 
   return (
     <div className="app-shell">
@@ -25,9 +26,15 @@ export default function App() {
         >
           Actividades
         </button>
+        <button
+          className={`nav-tab ${activeTab === 'ejecutar' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ejecutar')}
+        >
+          Ejecutar
+        </button>
       </div>
 
-      {activeTab === 'etiquetas' ? <GestionEtiquetas /> : <GestionActividades />}
+      {activeTab === 'etiquetas' ? <GestionEtiquetas /> : activeTab === 'actividades' ? <GestionActividades /> : <EjecutarRutina />}
     </div>
   )
 }
