@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS actividades (
   nombre TEXT NOT NULL CHECK(LENGTH(TRIM(nombre)) > 0),
   etiqueta_id INTEGER NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (etiqueta_id) REFERENCES etiquetas(id) ON DELETE CASCADE
+  FOREIGN KEY (etiqueta_id) REFERENCES etiquetas(id) ON DELETE RESTRICT
 );
 
 -- Índice para búsqueda por etiqueta

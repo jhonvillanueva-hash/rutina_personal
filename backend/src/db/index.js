@@ -5,6 +5,9 @@ const fs = require('fs');
 const dbPath = path.resolve(__dirname, '../../rutina.db');
 const db = new Database(dbPath);
 
+// Activar foreign keys para integridad referencial
+db.pragma('foreign_keys = ON');
+
 // Inicialización básica de la base de datos
 function initDb() {
   db.exec(`

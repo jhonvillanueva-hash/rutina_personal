@@ -5,13 +5,15 @@ const actividadesController = {
   // Listar todas las actividades
   listar: (req, res) => {
     try {
-      let query = 'SELECT * FROM actividades ORDER BY created_at DESC';
+      let query = 'SELECT * FROM actividades';
       const params = [];
 
       if (req.query.etiqueta_id) {
         query += ' WHERE etiqueta_id = ?';
         params.push(req.query.etiqueta_id);
       }
+
+      query += ' ORDER BY created_at ASC';
 
       const rows = db.prepare(query).all(...params);
       const actividades = rows.map(row => Actividad.fromRow(row));
