@@ -14,6 +14,7 @@ export default function GestionActividades() {
     etiqueta_id: 0,
   })
   const [editId, setEditId] = useState<number | null>(null)
+  const [confirmandoId, setConfirmandoId] = useState<number | null>(null)
 
   useEffect(() => {
     cargarDatos()
@@ -72,14 +73,13 @@ export default function GestionActividades() {
   }
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
-      try {
-        await eliminarActividad(id)
-        setActividades(actividades.filter(a => a.id !== id))
-        setError(null)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido')
-      }
+    try {
+      await eliminarActividad(id)
+      setActividades(actividades.filter(a => a.id !== id))
+      setConfirmandoId(null)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido')
     }
   }
 
@@ -159,7 +159,7 @@ export default function GestionActividades() {
                 <div className="list-item-main">
                   <div className="list-item-title">{actividad.nombre}</div>
                   <div className="list-item-meta">
-                    Etiqueta: <span className="badge">{etiquetaNombre(actividad.etiqueta_id)}</span>
+                    Etiqueta: {etiquetaNombre(actividad.etiqueta_id)}
                   </div>
                 </div>
                 <div className="list-item-actions">
@@ -169,12 +169,29 @@ export default function GestionActividades() {
                   >
                     Editar
                   </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(actividad.id)}
-                  >
-                    Eliminar
-                  </button>
+                  {confirmandoId === actividad.id ? (
+                    <>
+                      <button
+                        className="btn btn-confirm"
+                        onClick={() => handleDelete(actividad.id)}
+                      >
+                        ¿Seguro?
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => setConfirmandoId(null)}
+                      >
+                        Cancelar
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => setConfirmandoId(actividad.id)}
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

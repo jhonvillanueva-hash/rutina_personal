@@ -11,6 +11,7 @@ export default function GestionEtiquetas() {
     duracion_segundos: 30,
   });
   const [editId, setEditId] = useState<number | null>(null);
+  const [confirmandoId, setConfirmandoId] = useState<number | null>(null);
 
   useEffect(() => {
     cargarEtiquetas();
@@ -56,14 +57,13 @@ export default function GestionEtiquetas() {
   };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta etiqueta?')) {
-      try {
-        await eliminarEtiqueta(id);
-        setEtiquetas(etiquetas.filter(e => e.id !== id));
-        setError(null);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido');
-      }
+    try {
+      await eliminarEtiqueta(id);
+      setEtiquetas(etiquetas.filter(e => e.id !== id));
+      setConfirmandoId(null);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error desconocido');
     }
   };
 
@@ -133,7 +133,7 @@ export default function GestionEtiquetas() {
                 <div className="list-item-main">
                   <div className="list-item-title">{etiqueta.nombre}</div>
                   <div className="list-item-meta">
-                    Duración: {etiqueta.duracion_segundos} segundos
+                    <span className="duration">{etiqueta.duracion_segundos}s</span>
                   </div>
                 </div>
                 <div className="list-item-actions">
@@ -143,12 +143,29 @@ export default function GestionEtiquetas() {
                   >
                     Editar
                   </button>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => handleDelete(etiqueta.id)}
-                  >
-                    Eliminar
-                  </button>
+                  {confirmandoId === etiqueta.id ? (
+                    <>
+                      <button
+                        className="btn btn-confirm"
+                        onClick={() => handleDelete(etiqueta.id)}
+                      >
+                        ¿Seguro?
+                      </button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() => setConfirmandoId(null)}
+                      >
+                        Cancelar
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => setConfirmandoId(etiqueta.id)}
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

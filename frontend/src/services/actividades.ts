@@ -1,7 +1,11 @@
 import type { Actividad } from '../types/actividad';
 
-export const listarActividades = async (): Promise<Actividad[]> => {
-  const response = await fetch('/api/actividades');
+export const listarActividades = async (etiquetaId?: number): Promise<Actividad[]> => {
+  let url = '/api/actividades';
+  if (etiquetaId !== undefined) {
+    url += `?etiqueta_id=${etiquetaId}`;
+  }
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error('Error al listar actividades');
   }

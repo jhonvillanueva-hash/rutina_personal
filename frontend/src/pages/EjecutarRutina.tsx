@@ -13,6 +13,9 @@ export default function EjecutarRutina() {
   const [horaInicio, setHoraInicio] = useState<string | null>(null)
   const [rutinaIniciada, setRutinaIniciada] = useState<boolean>(false)
 
+  const etiquetaActiva = etiquetas.find(e => e.id === etiquetaSeleccionada) || null
+  const duracionSegundos = etiquetaActiva?.duracion_segundos ?? null
+
   useEffect(() => {
     cargarEtiquetasConActividades()
   }, [])
@@ -57,10 +60,8 @@ export default function EjecutarRutina() {
 
       {error && <div className="error-banner">Error: {error}</div>}
 
-      <div style={{ marginBottom: '20px' }}>
-        <label htmlFor="etiqueta-select" style={{ display: 'block', marginBottom: '6px', fontWeight: 600 }}>
-          Seleccionar etiqueta:
-        </label>
+      <div className="field" style={{ marginBottom: '24px' }}>
+        <label htmlFor="etiqueta-select">Seleccionar etiqueta</label>
         {loading ? (
           <p>Cargando etiquetas...</p>
         ) : etiquetas.length === 0 ? (
@@ -70,10 +71,8 @@ export default function EjecutarRutina() {
         ) : (
           <select
             id="etiqueta-select"
-            value={etiquetaSeleccionada || ''}
+            value={etiquetaSeleccionada ?? ''}
             onChange={(e) => cargarActividades(Number(e.target.value))}
-            className="field"
-            style={{ width: '100%', padding: '10px' }}
           >
             <option value="" disabled>
               -- Selecciona una etiqueta --
@@ -103,7 +102,9 @@ export default function EjecutarRutina() {
                   <div className="list-item-main">
                     <div className="list-item-title">{actividad.nombre}</div>
                     <div className="list-item-meta">
-                      {actividad.duracion_segundos} segundos
+                      {duracionSegundos !== null && (
+                        <span className="duration">{duracionSegundos}s</span>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -113,7 +114,7 @@ export default function EjecutarRutina() {
         </div>
       )}
 
-      <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--color-border)' }}>
+      <div style={{ marginTop: '24px', paddingTop: '20px', borderTop: '1px solid var(--line)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <h3 style={{ margin: 0 }}>Control de ejecución</h3>
           {!rutinaIniciada && (
@@ -127,38 +128,38 @@ export default function EjecutarRutina() {
           )}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '12px', fontSize: '0.9rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '12px' }}>
           <div>
-            <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
+            <div style={{ color: 'var(--ink-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
               Hora de inicio
             </div>
-            <div style={{ fontWeight: 600 }}>
+            <div className="time-value">
               {horaInicio || '--:--:--'}
             </div>
           </div>
 
           <div>
-            <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
+            <div style={{ color: 'var(--ink-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
               Hora de fin
             </div>
-            <div style={{ fontWeight: 600 }}>
+            <div className="time-value">
               {rutinaIniciada ? '--' : '--:--:--'}
             </div>
           </div>
 
           <div>
-            <div style={{ color: 'var(--color-text-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
+            <div style={{ color: 'var(--ink-muted)', fontSize: '0.8rem', marginBottom: '4px' }}>
               Tiempo total
             </div>
-            <div style={{ fontWeight: 600 }}>
+            <div className="time-value">
               {rutinaIniciada ? '--' : '--:--:--'}
             </div>
           </div>
         </div>
 
         {rutinaIniciada && (
-          <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'var(--color-accent-soft)', borderRadius: 'var(--radius-sm)' }}>
-            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--color-accent-dark)' }}>
+          <div style={{ marginTop: '16px', padding: '12px', backgroundColor: 'var(--accent-soft)', borderRadius: 'var(--radius-sm)' }}>
+            <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--accent-deep)' }}>
               Rutina iniciada. La ejecución automática con countdown y barra de progreso se implementará en la siguiente fase.
             </p>
           </div>
